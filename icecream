@@ -1,0 +1,29 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Result {
+    public static List<Integer> icecreamParlor(int m, List<Integer> arr) {
+        List<Integer> result = new ArrayList<>();
+        findIceCreams(arr, m, 0, result);
+        return result;
+    }
+
+    private static void findIceCreams(List<Integer> arr, int target, int startIndex, List<Integer> result) {
+        for (int i = startIndex; i < arr.size(); i++) {
+            int currentCost = arr.get(i);
+            int remainingBudget = target - currentCost;
+
+            if (remainingBudget >= 0) {
+                result.add(i + 1);  // Add 1 to make it 1-based index.
+                if (remainingBudget == 0) {
+                    break;
+                }
+                findIceCreams(arr, remainingBudget, i + 1, result);
+                if (result.size() == 3) {
+                    break;
+                }
+                result.remove(result.size() - 1); // Backtrack if a solution was not found.
+            }
+        }
+    }
+}
